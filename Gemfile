@@ -40,3 +40,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 # Authentication and authorization
 gem 'devise'
+
+# Currency management
+gem 'money-rails'

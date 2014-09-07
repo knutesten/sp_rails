@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ware: MyString
+  price: 1
+  amount_owed: 1
+  buyer_id: 
+  detbtor_id: 
+
+two:
+  ware: MyString
+  price: 1
+  amount_owed: 1
+  buyer_id: 
+  detbtor_id: 

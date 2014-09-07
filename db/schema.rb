@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140906175333) do
+ActiveRecord::Schema.define(version: 20140907123713) do
+
+  create_table "protocols", force: true do |t|
+    t.string   "ware",        null: false
+    t.integer  "price",       null: false
+    t.integer  "amount_owed", null: false
+    t.integer  "buyer_id"
+    t.integer  "detbtor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "protocols", ["buyer_id"], name: "index_protocols_on_buyer_id"
+  add_index "protocols", ["detbtor_id"], name: "index_protocols_on_detbtor_id"
 
   create_table "users", force: true do |t|
     t.string   "name",                                null: false
