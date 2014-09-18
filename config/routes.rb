@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :protocols
+
   get 'main_menu/index'
 
   devise_for :users

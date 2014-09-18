@@ -1,0 +1,37 @@
+<%= form_for(@protocol) do |f| %>
+  <% if @protocol.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@protocol.errors.count, "error") %> prohibited this protocol from being saved:</h2>
+
+      <ul>
+      <% @protocol.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ware %><br>
+    <%= f.text_field :ware %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :amount_owed %><br>
+    <%= f.text_field :amount_owed %>
+  </div>
+  <div class="field">
+    <%= f.label :buyer %><br>
+    <%= f.text_field :buyer%>
+  </div>
+  <div class="field">
+    <%= f.label :debtor %><br>
+    <%= f.text_field :debtor %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ware:</strong>
+  <%= @protocol.ware %>
+</p>
+
+<p>
+  <strong>Price cents:</strong>
+  <%= @protocol.price %>
+</p>
+
+<p>
+  <strong>Amount owed cents:</strong>
+  <%= @protocol.amount_owed.name %>
+</p>
+
+<p>
+  <strong>Buyer:</strong>
+  <%= @protocol.buyer.name %>
+</p>
+
+<p>
+  <strong>Debtor:</strong>
+  <%= @protocol.debtor %>
+</p>
+
+<%= link_to 'Edit', edit_protocol_path(@protocol) %> |
+<%= link_to 'Back', protocols_path %>
