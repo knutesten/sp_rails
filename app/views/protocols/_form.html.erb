@@ -19,7 +19,7 @@
         <%= f.label :price %><br>
         <%= f.text_field :price %>
     </div>
-    <div class="field">
+    <div class="<%= @protocol.errors[:debtors].any? ? 'field_with_errors' : 'field' %>">
         <% @users.each do |user| %>
             <%= check_box_tag "debtors[#{user.email}]", user.id %>
             <%= label_tag "debtors[#{user.email}]", user.name %><br>
