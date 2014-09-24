@@ -14,6 +14,7 @@ class ProtocolsController < ApplicationController
 
   # GET /protocols/new
   def new
+    @users = User.all
     @protocol = Protocol.new
   end
 
@@ -24,21 +25,17 @@ class ProtocolsController < ApplicationController
   # POST /protocols
   # POST /protocols.json
   def create
-    @protocol = Protocol.new
+    debtors = params.require(:debtors)
+    debtors.each do
+      @protocol = Protocol.new protocol_params
+      @protocol.buyer = current_user
 
-    @protocol.ware = protocol_params['ware']
-    @protocol.price = protocol_params['price']
-    @protocol.amount_owed = protocol_params['amount_owed']
-    @protocol.buyer = User.first
-    @protocol.debtor = User.last
-
-    respond_to do |format|
-      if @protocol.save
-        format.html { redirect_to @protocol, notice: 'Protocol was successfully created.' }
-        format.json { render :show, status: :created, location: @protocol }
-      else
-        format.html { render :new }
-        format.json { render json: @protocol.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @protocol.save
+          format.html { redirect_to @protocol, notice: 'Protocol was successfully created.' }
+        else
+          format.html { render :new }
+        end
       end
     end
   end
@@ -49,10 +46,8 @@ class ProtocolsController < ApplicationController
     respond_to do |format|
       if @protocol.update(protocol_params)
         format.html { redirect_to @protocol, notice: 'Protocol was successfully updated.' }
-        format.json { render :show, status: :ok, location: @protocol }
       else
         format.html { render :edit }
-        format.json { render json: @protocol.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -63,18 +58,17 @@ class ProtocolsController < ApplicationController
     @protocol.destroy
     respond_to do |format|
       format.html { redirect_to protocols_url, notice: 'Protocol was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_protocol
-      @protocol = Protocol.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_protocol
+    @protocol = Protocol.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def protocol_params
-      params.require(:protocol).permit(:ware, :price, :amount_owed, :buyer, :debtor)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def protocol_params
+    params.require(:protocol).permit(:ware, :price, :amount_owed)
+  end
 end
