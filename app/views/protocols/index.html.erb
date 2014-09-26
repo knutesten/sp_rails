@@ -1,31 +1,35 @@
 <h1>Listing protocols</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Ware</th>
-      <th>Price cents</th>
-      <th>Amount owed cents</th>
-      <th>Buyer</th>
-      <th>Debtor</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% @overview.each_value do |row| %>
+    <% (name, amount_owed) = row %>
+    <div><%= name %> &nbsp;&nbsp;&nbsp;&nbsp; <%= amount_owed %></div>
+<% end %>
 
-  <tbody>
+<table>
+    <thead>
+    <tr>
+        <th>Ware</th>
+        <th>Price</th>
+        <th>Amount owed</th>
+        <th>Buyer</th>
+        <th>Debtor</th>
+        <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
     <% @protocols.each do |protocol| %>
-      <tr>
-        <td><%= protocol.ware %></td>
-        <td><%= protocol.price %></td>
-        <td><%= protocol.amount_owed %></td>
-        <td><%= protocol.buyer.name %></td>
-        <td><%= protocol.debtor.name %></td>
-        <td><%= link_to 'Show', protocol %></td>
-        <td><%= link_to 'Edit', edit_protocol_path(protocol) %></td>
-        <td><%= link_to 'Destroy', protocol, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tr>
+            <td><%= protocol.ware %></td>
+            <td><%= protocol.price %></td>
+            <td><%= protocol.amount_owed %></td>
+            <td><%= protocol.buyer.name %></td>
+            <td><%= protocol.debtor.name %></td>
+            <td><%= link_to 'Edit', edit_protocol_path(protocol) %></td>
+            <td><%= link_to 'Destroy', protocol, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
     <% end %>
-  </tbody>
+    </tbody>
 </table>
 
 <br>

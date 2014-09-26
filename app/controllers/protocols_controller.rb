@@ -1,15 +1,22 @@
 class ProtocolsController < ApplicationController
-  before_action :set_protocol, only: [:show, :edit, :update, :destroy]
+  before_action :set_protocol, only: [:edit, :update, :destroy]
 
   # GET /protocols
   # GET /protocols.json
   def index
-    @protocols = Protocol.all
-  end
+    current_user_id = current_user.id
+    @protocols = Protocol.all.where('buyer_id = ? OR debtor_id = ?', current_user_id, current_user_id)
 
-  # GET /protocols/1
-  # GET /protocols/1.json
-  def show
+    @overview = {}
+    User.all.each { |user| @overview[user.id] = [user.name, Money.new(0)] }
+
+    @protocols.each do |protocol|
+      if protocol.debtor_id == current_user.id
+        @overview[protocol.buyer_id][1] += protocol.amount_owed
+      else
+        @overview[protocol.debtor_id][1] -= protocol.amount_owed
+      end
+    end
   end
 
   # GET /protocols/new
@@ -83,11 +90,13 @@ class ProtocolsController < ApplicationController
   def create_protocol_for_each_debtor(debtors, protocol_params)
     if valid_debtors? debtors
       debtors.each_key do |debtor_key|
-        protocol = Protocol.new protocol_params
-        protocol.buyer = current_user
-        protocol.debtor_id = debtors[debtor_key]
-        protocol.amount_owed = protocol_params[:price].to_f / debtors.length
-        protocol.save
+        unless debtors[debtor_key].to_s == current_user.id.to_s
+          protocol = Protocol.new protocol_params
+          protocol.buyer = current_user
+          protocol.debtor_id = debtors[debtor_key]
+          protocol.amount_owed = protocol_params[:price].to_f / debtors.length
+          protocol.save
+        end
       end
     end
   end
